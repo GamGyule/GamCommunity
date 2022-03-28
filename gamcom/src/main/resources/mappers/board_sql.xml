@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+	<select id="getNextAI" resultType="java.lang.Integer">
+		<![CDATA[ SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = 'board' AND table_schema = 'gamcomunity'; ]]>
+	</select>
+	
+	
+	<select id="getList" resultType="com.gamgyul.gams.dto.BoardDTO" parameterType="map">
+		<![CDATA[ select * from board where board_category = #{board_category} order by board_idx desc limit #{page}, 20]]>
+	</select>
+	
+	<select id="getCmtCnt" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		<![CDATA[ select count(*) cnt from comment c where c.board_idx = #{board_idx}]]>
+	</select>
+	
+	<select id="getPost" resultType="com.gamgyul.gams.dto.BoardDTO" parameterType="java.lang.Integer">
+		<![CDATA[ select * from board where board_idx = #{board_idx} ]]>
+	</select>
+	
+	<select id="postHit" parameterType="java.lang.Integer">
+		<![CDATA[ update board set board_hit=board_hit+1 where board_idx = #{board_idx} ]]>
+	</select>
+	
+	<select id="writePost" parameterType="map">
+		<![CDATA[ INSERT INTO board(board_subject,board_content,customer_idx,board_user,board_date,board_hit,board_vote,board_category) VALUES(#{board_subject},#{board_content},#{customer_idx},#{board_user},${board_date},#{board_hit},#{board_vote},#{board}) ]]>
+	</select>
+	
+	<select id="getOwnerId" resultType="java.lang.String" parameterType="java.lang.Integer">
+		<![CDATA[ select customer_idx from board where board_idx = #{board_idx} ]]>
+	</select>
+	
+	
+	
+	<select id="addVote" resultType="java.lang.String" parameterType="java.lang.String">
+		<![CDATA[ update board set board_vote = board_vote+1 where board_idx = #{board_idx} ]]>
+	</select>
+	
+	<select id="getVote" resultType="java.lang.String" parameterType="map">
+		<![CDATA[ select board_vote from board where board_idx = #{board_idx} ]]>
+	</select>
+	
+	<select id="delPost" resultType="java.lang.Integer" parameterType="map">
+		<![CDATA[ delete from board where (board_idx = #{board_idx} and customer_idx = #{customer_idx}) or (board_idx = #{board_idx} and #{customer_admin} = 1) ]]>
+	</select>
+	
+</mapper>

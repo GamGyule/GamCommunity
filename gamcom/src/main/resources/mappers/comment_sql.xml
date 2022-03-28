@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="comment">
+	<select id="getCmt" resultType="com.gamgyul.gams.dto.CommentDTO" parameterType="java.lang.Integer">
+		<![CDATA[ select * from comment where board_idx = #{board_idx} ]]>
+	</select>
+	
+	<select id="addCmt" parameterType="com.gamgyul.gams.dto.CommentDTO">
+		<![CDATA[ INSERT INTO comment(board_idx,customer_idx,customer_name,customer_url,cmt_contents,cmt_date,cmt_vote) 
+		VALUES(#{board_idx},#{customer_idx},#{customer_name},#{customer_url},#{cmt_contents},NOW(),#{cmt_vote}) ]]>
+	</select>
+
+</mapper>

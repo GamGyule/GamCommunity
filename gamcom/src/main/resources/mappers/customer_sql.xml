@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="customer">
+	<select id="getCustCnt" resultType="java.lang.Integer" parameterType="map">
+		<![CDATA[ SELECT count(*) cnt FROM customer where customer_idx = #{customer_idx} and customer_pb = #{customer_pb} ]]>
+	</select>
+	
+	
+	<select id="addCust" resultType="java.lang.Integer" parameterType="com.gamgyul.gams.dto.CustomerDTO">
+		<![CDATA[ INSERT INTO customer(customer_idx,customer_email,customer_url,customer_name,customer_pb)
+		VALUES(#{customer_idx},#{customer_email},#{customer_url},#{customer_name},#{customer_pb}) on duplicate key update customer_email = #{customer_email}, customer_url = #{customer_url}, customer_name = #{customer_name}, customer_pb = #{customer_pb}]]>
+	</select>
+
+</mapper>
